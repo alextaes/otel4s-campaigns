@@ -25,12 +25,13 @@ In order to run system
 Build necessary docker containers:
 ```
 sbt campaigns_service/docker:publishLocal
-sbt otel4s/docker:publishLocal
+sbt promotions_service/docker:publishLocal
 ```
 
 Run specific system setup using docker compose. For instance :
 ```
-docker-compose -f docker-compose/otel4s/prometheus-docker-compose.yml up -d
+docker-compose -f docker-compose/promotions_service/prometheus-docker-compose.yml up -d
+docker-compose -f docker-compose/promotions_service/zipkin-docker-compose.yml up -d
 ```
 
 After, run load testing to simulate user traffic
@@ -42,5 +43,5 @@ Check target APM or any monitoring tool and verify telemetry has been sent.
 
 Stop environment using docker compose:
 ```
-docker-compose -f docker-compose/otel4s/prometheus-docker-compose.yml down
+docker-compose -f docker-compose/promotions_service/prometheus-docker-compose.yml down
 ```

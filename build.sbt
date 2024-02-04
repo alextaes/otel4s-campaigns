@@ -27,8 +27,8 @@ lazy val campaigns_service =
       Docker / version := "latest"
     )
 
-lazy val otel4s =
-  (project in file("otel4s")).
+lazy val promotions_service =
+  (project in file("promotions_service")).
     enablePlugins(JavaAgent, JavaAppPackaging, DockerPlugin).
     settings(
       scalaVersion := "2.13.10",
