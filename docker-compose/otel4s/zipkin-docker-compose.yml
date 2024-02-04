@@ -54,8 +54,8 @@ services:
         - promotions
 
   promotions_service:
-    image: promotions_service_otel4s
-    container_name: promotions_service_otel4s
+    image: promotions_service
+    container_name: promotions_service
     hostname: promotions_service
     restart: always
     environment:

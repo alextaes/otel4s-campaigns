@@ -44,7 +44,7 @@ lazy val otel4s =
 
       dockerExposedPorts := Seq(10000),
       dockerBaseImage := "openjdk:17",
-      Docker / packageName := "campaigns_service_otel4s",
+      Docker / packageName := "promotions_service",
       Docker / version := "latest",
       Docker / dockerChmodType := DockerChmodType.UserGroupWriteExecute
     )

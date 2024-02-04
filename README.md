@@ -24,7 +24,7 @@ In order to run system
 
 Build necessary docker containers:
 ```
-sbt projects_service/docker:publishLocal
+sbt campaigns_service/docker:publishLocal
 sbt otel4s/docker:publishLocal
 ```
 
