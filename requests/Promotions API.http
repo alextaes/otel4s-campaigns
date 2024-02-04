@@ -1,0 +1,39 @@
+# Create a promotion
+POST http://localhost:10001/promotions
+
+{
+        "campaign": 4,
+        "title": "Test promotion title 1",
+        "description": "Test promotion description: ",
+        "creator": "john.doe@acme.com"
+}
+
+###
+
+
+# Update a promotion
+PUT http://localhost:10001/promotions
+
+{
+        "id": 3,
+        "campaign": 4,
+        "title": "Test promotion title 1",
+        "description": "Test promotion description: 1.",
+        "updater": "another_test_user"
+}
+
+###
+
+# Search for promotions
+GET http://localhost:10001/promotions?campaign=4&title=Test
+
+###
+
+# Search for promotions in ElasticSearch
+http://localhost:9200/promotions/_search?pretty=true
+
+
+###
+
+# Delete a promotion
+DELETE http://localhost:10001/promotions/2

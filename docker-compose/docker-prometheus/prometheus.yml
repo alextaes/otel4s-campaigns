@@ -1,0 +1,13 @@
+# NOTE: Replace `SPLUNK_ACCESS_TOKEN` and `SPLUNK_REALM` with yours and  run agent before app launch.
+global:
+  scrape_interval: 5s
+  external_labels:
+    monitor: 'global-monitor'
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  - job_name: 'promotions-service'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['promotions_service:9094']

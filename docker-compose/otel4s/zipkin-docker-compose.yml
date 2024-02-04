@@ -1,0 +1,85 @@
+# Docker compose to run promotions service, environment for it and zipkin agent
+# Run with following command: docker-compose -f docker-compose/otel4s/zipkin-docker-compose.yml up -d
+# Stop with following command: docker-compose -f docker-compose/otel4s/zipkin-docker-compose.yml down
+# After start open http://localhost:9411 to verify Zipkin is up and running
+version: "3"
+services:
+  campaigns_service:
+    extends:
+      file: ../common-zipkin-docker-compose.yml
+      service: campaigns_service
+    networks:
+      - promotions
+
+  postgres:
+    extends:
+      file: ../common-zipkin-docker-compose.yml
+      service: postgres
+    networks:
+      - promotions
+
+  elasticsearch:
+    extends:
+      file: ../common-zipkin-docker-compose.yml
+      service: elasticsearch
+    networks:
+      - promotions
+
+  zookeeper:
+    extends:
+      file: ../common-zipkin-docker-compose.yml
+      service: zookeeper
+    networks:
+      - promotions
+
+  kafka-1:
+    extends:
+      file: ../common-zipkin-docker-compose.yml
+      service: kafka-1
+    networks:
+      - promotions
+
+  kafka-2:
+    extends:
+      file: ../common-zipkin-docker-compose.yml
+      service: kafka-2
+    networks:
+      - promotions
+
+  zipkin:
+    extends:
+      file: ../common-zipkin-docker-compose.yml
+      service: zipkin
+    networks:
+        - promotions
+
+  promotions_service:
+    image: promotions_service_otel4s
+    container_name: promotions_service_otel4s
+    hostname: promotions_service
+    restart: always
+    environment:
+      - OTEL_SERVICE_NAME=promotions_service
+      - OTEL_METRICS_EXPORTER=none
+      - OTEL_TRACES_EXPORTER=zipkin
+      - OTEL_EXPORTER_ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
+      - APPLICATION_ELASTICSEARCH_URL=http://elasticsearch:9200
+      - APPLICATION_POSTGRE_URL=jdbc:postgresql://postgres:5432/promotions?user=promotions_user&password=promotions_password
+      - APPLICATION_POSTGRE_HOST=postgres
+      - APPLICATION_KAFKA_URL=kafka-1:9092
+      - APPLICATION_CAMPAIGNS_URL=http://campaigns_service:10000
+    networks:
+      - promotions
+    ports:
+      - "10001:10001"
+    depends_on:
+      - campaigns_service
+      - postgres
+      - elasticsearch
+      - zookeeper
+      - kafka-1
+      - kafka-2
+      - zipkin
+
+networks:
+  promotions:
