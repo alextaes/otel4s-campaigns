@@ -17,7 +17,6 @@ import promotions.model.{CreatePromotion, Promotion, UpdatePromotion}
 
 class PromotionsService[F[_]](postgres: PromotionsPostgresRepository[F],
                               elastic: PromotionsElasticRepository[F],
-                              kafka: PromotionsKafkaProducer[F],
                               campaigns: CampaignsServiceClient[F],
                               promotionsCounter: UpDownCounter[F, Long])
                              (implicit F: Sync[F], A: Async[F]) {
@@ -47,9 +46,6 @@ class PromotionsService[F[_]](postgres: PromotionsPostgresRepository[F],
 
       _ <- logger.info(s"Indexing promotion in Elasticsearch: $promotion")
       _ <- elastic.indexPromotion(promotion)
-
-      _ <- logger.info(s"Send promotion notification: $promotion")
-      _ <- kafka.sendCreated(promotion)
 
       _ <- promotionsCounter.add(1, Attribute("campaign.id", promotion.id)) // Increase metrics counter
       _ <- logger.info(s"Created promotion: $promotion")
@@ -84,7 +80,6 @@ class PromotionsService[F[_]](postgres: PromotionsPostgresRepository[F],
         for {
           _ <- postgres.update(promotion)
           _ <- elastic.indexPromotion(promotion)
-          _ <- kafka.sendUpdated(promotion)
         } yield ()
       }
       _ <- logger.info(s"Updated promotion: $updated")

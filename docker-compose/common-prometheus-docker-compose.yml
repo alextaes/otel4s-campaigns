@@ -21,21 +21,6 @@ services:
       file: common-environment-docker-compose.yml
       service: elasticsearch
 
-  zookeeper:
-    extends:
-      file: common-environment-docker-compose.yml
-      service: zookeeper
-
-  kafka-1:
-    extends:
-      file: common-environment-docker-compose.yml
-      service: kafka-1
-
-  kafka-2:
-    extends:
-      file: common-environment-docker-compose.yml
-      service: kafka-2
-
   prometheus:
     build: docker-prometheus/.
     container_name: prometheus

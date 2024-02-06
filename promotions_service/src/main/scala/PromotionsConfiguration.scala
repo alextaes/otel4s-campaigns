@@ -9,15 +9,12 @@ case class ElasticsearchConfiguration(url: String)
 
 case class PostgreConfiguration(url: String)
 
-case class KafkaConfiguration(url: String, topic: String)
-
 case class ApplicationConfiguration(host: String, port: Int)
 
 case class CampaignsServiceConfiguration(url: String)
 
 case class PromotionsConfiguration(elasticsearch: ElasticsearchConfiguration,
                                    postgre: PostgreConfiguration,
-                                   kafka: KafkaConfiguration,
                                    campaigns: CampaignsServiceConfiguration,
                                    application: ApplicationConfiguration)
 

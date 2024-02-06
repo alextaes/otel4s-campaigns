@@ -18,11 +18,10 @@ class PromotionsServiceModule[F[_] : Sync : Async : Concurrent : Tracer](
                                                                           promotionsCounter: UpDownCounter[F, Long]) {
   implicit lazy val executionContext: ExecutionContext = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(2))
 
-  lazy val kafka = new PromotionsKafkaProducer[F](configuration.kafka)
   lazy val repo = new PromotionsPostgresRepository[F](configuration.postgre)
   lazy val elastic = new PromotionsElasticRepository[F](configuration.elasticsearch)
   lazy val campaigns = new CampaignsServiceClient[F](configuration.campaigns)
-  lazy val service = new PromotionsService[F](repo, elastic, kafka, campaigns, promotionsCounter)
+  lazy val service = new PromotionsService[F](repo, elastic, campaigns, promotionsCounter)
   lazy val api = new PromotionsServiceApi[F](service)
 }
 

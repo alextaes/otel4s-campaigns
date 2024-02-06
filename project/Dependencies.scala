@@ -31,16 +31,7 @@ object Dependencies {
     )
   }
 
-  lazy val kafka = {
-    val kafkaVersion = "3.4.0"
-
-    Seq(
-      "org.apache.kafka" % "kafka-clients" % kafkaVersion,
-      "io.confluent" % "kafka-json-serializer" % "7.3.3",
-    )
-  }
-
-  lazy val common = circe ++ pureConfig ++ elastic4s ++ flyway ++ kafka
+  lazy val common = circe ++ pureConfig ++ elastic4s ++ flyway
 
   lazy val lightbendSpecific = {
     val slickVersion = "3.4.1"

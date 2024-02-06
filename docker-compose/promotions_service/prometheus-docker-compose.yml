@@ -28,30 +28,6 @@ services:
     networks:
       - promotions
 
-  zookeeper:
-    extends:
-      file: ../common-prometheus-docker-compose.yml
-      service: zookeeper
-    hostname: zookeeper
-    networks:
-      - promotions
-
-  kafka-1:
-    extends:
-      file: ../common-prometheus-docker-compose.yml
-      service: kafka-1
-    hostname: kafka-1
-    networks:
-      - promotions
-
-  kafka-2:
-    extends:
-      file: ../common-prometheus-docker-compose.yml
-      service: kafka-2
-    hostname: kafka-2
-    networks:
-      - promotions
-
   prometheus:
     extends:
       file: ../common-prometheus-docker-compose.yml
@@ -74,7 +50,6 @@ services:
       - APPLICATION_ELASTICSEARCH_URL=http://elasticsearch:9200
       - APPLICATION_POSTGRE_URL=jdbc:postgresql://postgres:5432/promotions?user=promotions_user&password=promotions_password
       - APPLICATION_POSTGRE_HOST=postgres
-      - APPLICATION_KAFKA_URL=kafka-1:9092
       - APPLICATION_CAMPAIGNS_URL=http://campaigns_service:10000
     networks:
       - promotions
